@@ -1,11 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const cors = require('cors');
 require('./database/db');
-const ApplicationConstants = require('./global/constants/ApplicationConstants');
 const ApplicationErrorHandler = require('./global/ErrorHandler/ApplicationErrorHandler');
 
 app.use(bodyParser.json());
+app.use(cors());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(require('./router/router'));
 app.use(ApplicationErrorHandler);
