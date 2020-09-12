@@ -21,10 +21,10 @@ exports.getRecipe = async (qParams,res,next) => {
     const {category,type,name} = qParams;
     try{
         if(category){
-           query['category']  = category.toLowerCase();
+           query['category']  = category;
         }
         if(type){
-            query['type'] = type.toLowerCase();
+            query['type'] = type;
         }
         if(name){
             query['name'] = name.toLowerCase();
