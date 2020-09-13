@@ -20,3 +20,11 @@ exports.getRecipe = (req,res,next) =>{
         next(e);
     }
 }
+
+exports.searchRecipe = (req,res,next) => {
+    try{
+        recipeService.searchRecipe(req.query,res,next);
+    }catch(e){
+        next(e);
+    }
+}

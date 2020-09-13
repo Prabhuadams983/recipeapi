@@ -18,7 +18,7 @@ exports.saveRecipe = async (data,res,next) =>{
 
 exports.getRecipe = async (qParams,res,next) => {
     var query = {};
-    const {category,type,name} = qParams;
+    const {category,type} = qParams;
     try{
         if(category){
            query['category']  = category;
@@ -26,12 +26,25 @@ exports.getRecipe = async (qParams,res,next) => {
         if(type){
             query['type'] = type;
         }
-        if(name){
-            query['name'] = name.toLowerCase();
-        }
-
         const recipe = await Recipe.find(query);
         if(recipe.length > 0){
+            res.status(200).send({
+                'status':200,
+                'recipes':recipe
+            })
+        }else{
+            throw new Error(ApplicationConstants.NO_RECIPE_FOUND);
+        }
+    }catch(e){
+        next(new ServiceError(e));
+    }
+}
+
+exports.searchRecipe = async(qParams,res,next) =>{
+    try{
+        const {name} = qParams;
+        const recipe = await Recipe.find({$text:{$search:name.toLowerCase()}});
+        if((await recipe).length > 0){
             res.status(200).send({
                 'status':200,
                 'recipes':recipe
